@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
       - name: Run all tests
-        run: pytest --alluredir=allure-results
+        run: docker-compose up
         continue-on-error: true
       - name: Install java
         uses: actions/setup-java@v5
