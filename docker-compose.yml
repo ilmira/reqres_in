@@ -1,0 +1,7 @@
+services:
+  reqres-in:
+    build: .
+    command: pytest --alluredir=/app/allure-results
+    volumes:
+      - ./allure-results:/app/allure-results
+
