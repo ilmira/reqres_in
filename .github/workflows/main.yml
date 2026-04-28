@@ -32,4 +32,29 @@ jobs:
           name: allure-report
           path: allure-report
           retention-days: 1
+  prepare-pages:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download allure report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Upload to GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  deploy-to-pages:
+    needs: prepare-pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
       
