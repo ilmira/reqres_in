@@ -1,7 +1,32 @@
 services:
-  reqres-in:
+  tests:
     build: .
-    command: pytest --alluredir=/app/allure-results
+    container_name: pytest-tests
     volumes:
       - ./allure-results:/app/allure-results
+    command: pytest -v --alluredir=/app/allure-results
+    restart: "no"
 
+  report:
+    image: python:3.11-slim
+    container_name: allure-report
+    ports:
+      - "8080:8000"
+    volumes:
+      - ./allure-results:/allure-results
+    command: >
+      bash -c "
+        apt-get update && 
+        apt-get install -y wget tar openjdk-21-jre-headless &&
+        wget -q https://github.com/allure-framework/allure2/releases/download/2.32.0/allure-2.32.0.tgz &&
+        tar -xzf allure-2.32.0.tgz -C /opt/ &&
+        ln -s /opt/allure-2.32.0/bin/allure /usr/local/bin/allure &&
+        rm allure-2.32.0.tgz &&
+        echo 'Ждём результатов тестов...' &&
+        while [ ! -d /allure-results ] || [ -z \"\$(ls -A /allure-results)\" ]; do sleep 2; done &&
+        allure generate /allure-results -o /allure-report --clean &&
+        cd /allure-report && python3 -m http.server 8000
+      "
+    depends_on:
+      - tests
+    restart: "no"
