@@ -1,3 +1,5 @@
+import allure
+
 from services.base_api import BaseAPI
 
 
@@ -10,6 +12,7 @@ class GetUsers(BaseAPI):
         """
         super().__init__(base_url=env_config.reqres_url)
 
+    @allure.step('Просмотр данных пользователей по id')
     def get_users(self, page_number: int):
         """Получить список пользователей.
 
@@ -19,6 +22,6 @@ class GetUsers(BaseAPI):
         Returns:
             requests.Response: Ответ от сервера
         """
-        response = self.session.get(f"{self.base_url}/users?page={page_number}")
+        response = self.session.get_user_class(f"{self.base_url}/users?page={page_number}")
 
         return response

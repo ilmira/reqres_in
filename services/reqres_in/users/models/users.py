@@ -1,23 +1,37 @@
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 
 class Support(BaseModel):
-    url: str
+    url: HttpUrl
     text: str
 
 
-class UserData(BaseModel):
+class UserItem(BaseModel):
     id: int
     email: str
     first_name: str
     last_name: str
     avatar: str
 
+class Meta(BaseModel):
+    powered_by: str
+    upgrade_url: HttpUrl
+    docs_url: HttpUrl
+    template_gallery: HttpUrl
+    message: str
+    features: List[str]
+    upgrade_cta: str
+
+class UserData(BaseModel):
+    data: UserItem
+    support: Support
+    _meta: Meta
+
 
 class SingleUserResponse(BaseModel):
-    data: UserData
+    data: UserItem
     support: Support
 
 
@@ -48,6 +62,6 @@ class UsersListResponse(BaseModel):
     per_page: int
     total: int
     total_pages: int
-    data: List[UserData]
+    data: List[UserItem]
     support: Support
     _meta: dict
