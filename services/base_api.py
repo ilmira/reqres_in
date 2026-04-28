@@ -12,7 +12,7 @@ class BaseAPI:
         self.session.headers.update({
             "Content-Type": "application/json",
             "Accept": "application/json",
-            'x-api-key': 'free_user_3CzT1WAan5vzPpTgqVX7RAyBJFG'
+            'x-api-key': 'reqres_f91ed0b2ef5042fd8adaff105268254e'
         })
 
     @allure.step('Проверяем статус код: ожидается код 200')
