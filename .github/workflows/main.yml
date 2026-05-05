@@ -36,7 +36,7 @@ jobs:
         with:
           name: allure-report
           path: allure-report
-          retention-days: 1
+          retention-days: 7
 
   prepare-pages:
     needs: run-tests
