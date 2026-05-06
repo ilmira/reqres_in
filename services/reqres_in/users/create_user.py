@@ -31,10 +31,12 @@ class CreateUser(BaseAPI):
         self.helper.attach_response(response.json())
         return response
 
-    @allure.step('Валидация схемы ответа')
     def validate_data(self, response, user_data):
-        validated_data = CreateUserResponse.model_validate(response.json())
-
-        assert validated_data.id
-        assert validated_data.name == user_data['name']
-        assert validated_data.job == user_data['job']
+        with allure.step('Валидация ответа по Pydantic-схеме CreateUserResponse'):
+            validated_data = CreateUserResponse.model_validate(response.json())
+        with allure.step('Проверка наличия id'):
+            assert validated_data.id
+        with allure.step(f'Проверка name, ожидается {user_data["name"]}'):
+            assert validated_data.name == user_data['name']
+        with allure.step(f'Проверка job, ожидается {user_data["job"]}'):
+            assert validated_data.job == user_data['job']

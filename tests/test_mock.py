@@ -17,12 +17,14 @@ def test_mock_success(mock, app):
             "avatar": "https://reqres.in/img/faces/2-image.jpg"
         }
     }
-    mock.return_value.status_code = 200
-    mock.return_value.json.return_value = mock_response
+    with patch.object(app.get_class.session, 'get') as mock_get:
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = mock_response
 
-    response = app.get.get_user(2)
-    app.get.check_status_code_is_200(response)
-    app.get.check_user_data(response)
+    id = 2
+    response = app.get_class.get_user(id)
+    app.get_class.check_status_code_is_200(response)
+    app.get_class.check_user_data(response, id=id)
 
 @pytest.mark.smoke
 @pytest.mark.regression
@@ -31,9 +33,11 @@ def test_mock_success(mock, app):
 @patch('requests.get')
 def test_mock_not_valid(mock, app):
     mock_response = {}
-    mock.return_value.status_code = 404
-    mock.return_value.json.return_value = mock_response
+    with patch.object(app.get_class.session, 'get') as mock_get:
+        mock_get.return_value.status_code = 404
+        mock_get.return_value.json.return_value = mock_response
 
-    response = app.get.get_user(23)
-    app.get.check_status_code_is_404(response)
-    app.get.check_user_data(response, valid=False)
+    id = 23
+    response = app.get_class.get_user(id)
+    app.get_class.check_status_code_is_404(response)
+    app.get_class.check_user_data(response, id=id, valid=False)

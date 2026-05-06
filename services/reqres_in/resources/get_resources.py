@@ -21,7 +21,8 @@ class GetResources(BaseAPI):
         self.helper.attach_response(response.json())
         return response
 
-    @allure.step('Валидация схемы ответа')
     def validate_data(self, response):
-        validated_data = ResourcesListResponse.model_validate(response.json())
-        assert len(validated_data.data) == validated_data.per_page
+        with allure.step('Валидация ответа по Pydantic-схеме ResourcesListResponse'):
+            validated_data = ResourcesListResponse.model_validate(response.json())
+        with allure.step('Проверка количества ресурсов'):
+            assert len(validated_data.data) == validated_data.per_page

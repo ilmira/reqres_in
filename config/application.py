@@ -15,7 +15,7 @@ class Application:
         self.login = LoginUser(env_config)
         self.register = RegisterUser(env_config)
         self.create = CreateUser(env_config)
-        self.get = GetUser(env_config)
+        self.get_class = GetUser(env_config)
         self.get_resources = GetResources(env_config)
         self.get_resource = GetResource(env_config)
         self.update_put = UpdateUserPut(env_config)

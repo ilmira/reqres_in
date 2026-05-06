@@ -27,8 +27,10 @@ class RegisterUser(BaseAPI):
         self.helper.attach_response(response.json())
         return response
 
-    @allure.step('Валидация схемы ответа')
     def validate_data(self, response):
-        validated_data = RegisterResponse.model_validate(response.json())
-        assert validated_data.id > 0
-        assert validated_data.token
+        with allure.step('Валидация ответа по Pydantic-схеме RegisterResponse'):
+            validated_data = RegisterResponse.model_validate(response.json())
+        with allure.step('Проверка id: больше 0'):
+            assert validated_data.id > 0
+        with allure.step('Проверка наличия токена'):
+            assert validated_data.token

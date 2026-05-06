@@ -32,6 +32,10 @@ class UpdateUserPut(BaseAPI):
         self.helper.attach_response(response.json())
         return response
 
-    @allure.step('Валидация схемы ответа')
-    def validate_data(self, response):
-        validated_data = UpdateUserResponse.model_validate(response.json())
+    def validate_data(self, response, name, job):
+        with allure.step('Валидация ответа по Pydantic-схеме UpdateUserResponse'):
+            validated_data = UpdateUserResponse.model_validate(response.json())
+        with allure.step(f'Проверка name, ожидается {name}'):
+            assert validated_data.name == name
+        with allure.step(f'Проверка job, ожидается {job}'):
+            assert validated_data.job == job

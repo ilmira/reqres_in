@@ -13,11 +13,12 @@ class TestUser:
     @allure.testcase("https://example.com/testcase/5", "Test-5")
     def test_update_user_put(self, app):
         id = 2
-        with allure.step('Обновляем данные пользователя'):
-            response = app.update_put.update_user_put(id, name="John Doe UPD", job="QA Engineer UPD")
+        name = "John Doe UPD"
+        job = "QA Engineer UPD"
+        response = app.update_put.update_user_put(id, name, job)
 
         app.update_put.check_status_code_is_200(response)
-        app.update_put.validate_data(response)
+        app.update_put.validate_data(response, name, job)
 
     @pytest.mark.smoke
     @pytest.mark.regression
@@ -25,9 +26,11 @@ class TestUser:
     @allure.testcase("https://example.com/testcase/6", "Test-6")
     def test_update_user_patch(self, app):
         id = 2
-        response = app.update_patch.update_user_patch(id, name="John Doe UPD", job="QA Engineer UPD")
+        name = "John Doe UPD"
+        job = "QA Engineer UPD"
+        response = app.update_patch.update_user_patch(id, name, job)
         app.update_patch.check_status_code_is_200(response)
-        app.update_patch.validate_data(response)
+        app.update_patch.validate_data(response, name, job)
 
     @pytest.mark.regression
     @allure.title('Удаление пользователя')

@@ -21,6 +21,6 @@ class GetResource(BaseAPI):
         self.helper.attach_response(response.json())
         return response
 
-    @allure.step('Валидация схемы ответа')
     def validate_data(self, response):
-        validated_data = SingleResourceResponse.model_validate(response.json())
+        with allure.step('Валидация ответа по Pydantic-схеме SingleResourceResponse'):
+            validated_data = SingleResourceResponse.model_validate(response.json())

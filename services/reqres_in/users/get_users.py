@@ -22,6 +22,6 @@ class GetUsers(BaseAPI):
         Returns:
             requests.Response: Ответ от сервера
         """
-        response = self.session.get_user_class(f"{self.base_url}/users?page={page_number}")
+        response = self.session.get(f"{self.base_url}/users?page={page_number}")
 
         return response

@@ -19,17 +19,18 @@ class GetUser(BaseAPI):
         response = self.session.get(f"{self.base_url}/users/{id}")
         return response
 
-    @allure.step('Проверка данных по id')
-    def check_user_data(self, response, valid = True):
+    def check_user_data(self, response, id: int, valid=True):
         if valid:
-            assert response.json()['data']['id']
-            assert response.json()['data']['id'] == 2
+            with allure.step('Проверка данных по id: проверка наличия id'):
+                assert response.json()['data']['id']
+            with allure.step(f'Проверка данных по id: проверка id: ожидается {id}'):
+                assert response.json()['data']['id'] == id
         else:
-            assert not response.json()
+            with allure.step('Невалидная проверка'):
+                assert not response.json()
 
-    @allure.step('Валидация схемы ответа')
     def validate_data(self, response, user_id):
-        validated_user_data = UserData.model_validate(response.json())
-        assert validated_user_data.data.id == user_id
-
-
+        with allure.step('Валидация ответа по Pydantic-схеме UserData'):
+            validated_user_data = UserData.model_validate(response.json())
+        with allure.step(f'Проверка id, ожидается {user_id}'):
+            assert validated_user_data.data.id == user_id
