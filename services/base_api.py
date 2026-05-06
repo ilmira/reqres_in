@@ -13,7 +13,7 @@ class BaseAPI:
     def __init__(self, base_url):
         self.base_url = base_url
         self.session = requests.Session()
-        self.api_key = os.getenv('API_KEY')
+        self.api_key = os.getenv('REQRES_API_KEY')
         if not self.api_key:
             raise ValueError("API_KEY environment variable is not set")
         self.session.headers.update({
