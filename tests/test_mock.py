@@ -7,7 +7,7 @@ import pytest
 @allure.title('Тест успешного mock')
 @allure.testcase("https://example.com/testcase/17", "Test-17")
 @patch('requests.get')
-def test_mock_success(mock, app):
+def test_mock_success(app):
     mock_response = {
         "data": {
             "id": 2,
@@ -24,14 +24,14 @@ def test_mock_success(mock, app):
     id = 2
     response = app.get_class.get_user(id)
     app.get_class.check_status_code_is_200(response)
-    app.get_class.check_user_data(response, id=id)
+    app.get_class.validate_data(response, id=id)
 
 @pytest.mark.smoke
 @pytest.mark.regression
 @allure.title('Тест неуспешного mock')
 @allure.testcase("https://example.com/testcase/18", "Test-18")
 @patch('requests.get')
-def test_mock_not_valid(mock, app):
+def test_mock_not_valid(app):
     mock_response = {}
     with patch.object(app.get_class.session, 'get') as mock_get:
         mock_get.return_value.status_code = 404
@@ -40,4 +40,4 @@ def test_mock_not_valid(mock, app):
     id = 23
     response = app.get_class.get_user(id)
     app.get_class.check_status_code_is_404(response)
-    app.get_class.check_user_data(response, id=id, valid=False)
+    app.get_class.validate_data(response, id=id, valid=False)

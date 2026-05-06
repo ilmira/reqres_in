@@ -29,8 +29,16 @@ class GetUser(BaseAPI):
             with allure.step('Невалидная проверка'):
                 assert not response.json()
 
-    def validate_data(self, response, user_id):
-        with allure.step('Валидация ответа по Pydantic-схеме UserData'):
-            validated_user_data = UserData.model_validate(response.json())
-        with allure.step(f'Проверка id, ожидается {user_id}'):
-            assert validated_user_data.data.id == user_id
+    def validate_data(self, response, user_id, valid=True):
+        if valid:
+            with allure.step('Валидация ответа по Pydantic-схеме UserData'):
+                validated_user_data = UserData.model_validate(response.json())
+            with allure.step('Проверка наличия id'):
+                assert validated_user_data.data.id
+            with allure.step(f'Проверка id, ожидается {user_id}'):
+                assert validated_user_data.data.id == user_id
+        else:
+            with allure.step('Невалидная проверка'):
+                assert not response.json()
+
+

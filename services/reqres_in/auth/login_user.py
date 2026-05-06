@@ -18,13 +18,13 @@ class LoginUser(BaseAPI):
     def login_user(self, login_data: LoginRequest, not_valid=False):
         if not_valid:
             data = {"email": login_data.email}
-            about_password = ''
+            about_password = 'без пароля'
         else:
             data = {"email": login_data.email, "password": login_data.password}
-            about_password = 'без пароля'
+            about_password = 'с паролем'
 
-        with allure.step('Авторизация пользователя' + about_password):
-            response = self.session.post(f"{self.base_url}/register", json=data)
+        with allure.step(f'Авторизация пользователя {about_password}'):
+            response = self.session.post(f"{self.base_url}/login", json=data)
             self.helper.attach_response(response.json())
             return response
 
