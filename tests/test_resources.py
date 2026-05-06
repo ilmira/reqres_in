@@ -27,7 +27,7 @@ class TestResources:
         response = app.get_resource.get_resource(id)
 
         app.get_resource.check_status_code_is_200(response)
-        app.get_resource.validate_data(response)
+        app.get_resource.validate_data(response, id)
 
     @pytest.mark.smoke
     @pytest.mark.regression

@@ -21,6 +21,10 @@ class GetResource(BaseAPI):
         self.helper.attach_response(response.json())
         return response
 
-    def validate_data(self, response):
+    def validate_data(self, response, id: int):
         with allure.step('Валидация ответа по Pydantic-схеме SingleResourceResponse'):
             validated_data = SingleResourceResponse.model_validate(response.json())
+        with allure.step('Проверка наличия id'):
+            assert validated_data.data.id
+        with allure.step(f'Проверка id, ожидается {id}'):
+            assert validated_data.data.id == id

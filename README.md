@@ -4,7 +4,7 @@ requirements.txt - пакеты для работы с проектом
 
 conftest.py - фиксатуры для проекта
 
-config/enviroments.py - файл с окружениями
+config/environments.py. - файл с окружениями
 
 services/base_api.py - базовый апи класс
 
@@ -24,7 +24,19 @@ cd reqres_in
 ```bash
 pip install -r requirements.txt
 ```
-### 3. Запуск тестов 
+### 3. Настроить переменные окружения
+
+Создать файл .env:
+
+```
+# .env.example
+API_KEY=your_api_key_here
+```
+
+```bash
+cp .env.example .env
+```
+### 4. Запуск тестов 
 
 * DEV: 
 ```bash
@@ -65,4 +77,31 @@ pytest -sv --env=stage
 ```bash
 allure serve allure-results
 ```
+
+## CI/CD
+
+Проект использует **GitHub Actions** для автоматического запуска тестов и публикации Allure‑отчёта на **GitHub Pages**.
+
+### Триггер
+
+Workflow запускается при создании Pull Request в ветку `main`.
+
+### Что делает pipeline
+
+| Джоба | Описание |
+|-------|----------|
+| `run-tests` | Запускает тесты через `docker compose up`, генерирует Allure‑отчёт и сохраняет его как артефакт сборки. |
+| `prepare-pages` | Загружает артефакт с отчётом и подготавливает его для деплоя на GitHub Pages. |
+| `deploy-to-pages` | Публикует отчёт на GitHub Pages и возвращает URL. |
+
+### Как посмотреть отчёт
+
+1. После завершения workflow перейдите в **Settings** → **Pages** вашего репозитория.
+2. Там будет указана ссылка на опубликованный сайт (например, `https://<username>.github.io/<repo>/`).
+3. Отчёт автоматически обновляется при каждом успешном запуске тестов.
+
+### Настройка GitHub Pages (один раз)
+
+Чтобы деплой работал, в настройках репозитория (`Settings` → `Pages`) выберите источник **"GitHub Actions"**. После первого запуска всё настроится автоматически.
+
 
