@@ -1,16 +1,75 @@
+## 📋 Что тестирует проект
+
+Проект содержит автоматические API-тесты для сервиса [ReqRes](https://reqres.in) (имитация REST API для тестирования). Тестируются следующие эндпоинты:
+
+- `GET /users` – получение списка пользователей
+- `GET /users/{id}` – получение одного пользователя
+- `POST /users` – создание пользователя
+- `PUT /users/{id}` – полное обновление
+- `PATCH /users/{id}` – частичное обновление
+- `DELETE /users/{id}` – удаление пользователя
+- `POST /register` – регистрация
+- `POST /login` – логин
+
+Проверяются: статус-коды, структура JSON (схемы), корректность данных, негативные сценарии.
+
+## 🛠 Технологии
+
+- **Python** 3.10+
+- **Requests** – HTTP-клиент
+- **Pytest** – фреймворк для тестирования
+- **Allure** – генерация отчётов
+- **Docker** + **Docker Compose** – контейнеризация
+- **GitHub Actions** – CI/CD
+- **GitHub Pages** – публикация отчётов
+
 # Структура проекта:
 
-requirements.txt - пакеты для работы с проектом
-
-conftest.py - фиксатуры для проекта
-
-config/environments.py. - файл с окружениями
-
-services/base_api.py - базовый апи класс
-
-services/reqres_in/users/ - методы для работы с данными пользователей
-
-tests/ - тесты для каждого метода для работы с данными пользователей
+```text
+reqres_in/
+├── requirements.txt # зависимости проекта
+├── conftest.py # фикстуры (клиент, токен, окружение)
+├── pytest.ini # настройки pytest
+├── .env / .env.example # переменные окружения
+├── config/
+│ ├── environments.py # настройки окружений (dev/stage/prod)
+│ └── application.py # конфигурация приложения
+├── services/
+│ ├── base_api.py # базовый HTTP-клиент
+│ └── reqres_in/
+│ ├── auth/ # методы для регистрации/логина
+│ │ ├── auth.py
+│ │ ├── login_user.py
+│ │ ├── register_user.py
+│ │ └── models/ # схемы ответов
+│ ├── resources/ # методы для работы с ресурсами
+│ │ ├── resource.py
+│ │ ├── get_resource.py
+│ │ ├── get_resources.py
+│ │ └── models/
+│ └── users/ # CRUD для пользователей
+│ ├── users.py
+│ ├── create_user.py
+│ ├── delete_user.py
+│ ├── get_user.py
+│ ├── get_users.py
+│ ├── update_user_put.py
+│ ├── update_user_patch.py
+│ └── models/
+├── tests/ # тесты
+│ ├── test_auth.py
+│ ├── test_create_user.py
+│ ├── test_user.py
+│ ├── test_resources.py
+│ ├── test_mock.py
+│ └── test_pytest_get_user.py
+├── utils/
+│ └── helper.py # вспомогательные функции
+├── allure-results/ # результаты тестов (генерируется)
+├── docker-compose.yml
+├── Dockerfile
+└── README.md
+```
 
 ## 🚀 Quick start
 
@@ -66,7 +125,7 @@ pytest -sv --env=stage
 
 *   **Запуск тестов для конкретного окружения (dev/stage):**
     ```bash
-    docker-compose run api-tests pytest --env stage
+    docker-compose run reqres-in pytest --env stage
     ```
 
 ### Отчеты и результаты
@@ -77,6 +136,10 @@ pytest -sv --env=stage
 ```bash
 allure serve allure-results
 ```
+## 📊 Скриншоты Allure-отчёта
+
+![Общий обзор](screenshots/allure-overview.png)
+![Детали тестов](screenshots/allure-test-cases.png)
 
 ## CI/CD
 
