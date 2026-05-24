@@ -136,10 +136,9 @@ pytest -sv --env=stage
 ```bash
 allure serve allure-results
 ```
-## 📊 Скриншоты Allure-отчёта
+## 📊 Пример Allure-отчёта
 
-![Общий обзор](screenshots/allure-overview.png)
-![Детали тестов](screenshots/allure-test-cases.png)
+![img.png](img.png)
 
 ## CI/CD
 
