@@ -15,7 +15,7 @@ class BaseAPI:
         self.session = requests.Session()
         self.api_key = os.getenv('REQRES_API_KEY')
         if not self.api_key:
-            raise ValueError("API_KEY environment variable is not set")
+            raise ValueError("REQRES_API_KEY environment variable is not set")
         self.session.headers.update({
             "Content-Type": "application/json",
             "Accept": "application/json",

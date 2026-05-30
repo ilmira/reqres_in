@@ -1,8 +1,7 @@
 name: Python autotests
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  push
 
 jobs:
   run-tests:
@@ -12,8 +11,12 @@ jobs:
       - name: Checkout autotests
         uses: actions/checkout@v6
 
+      - name: Create .env file from secret
+        run: |
+          echo "REQRES_API_KEY=${{ secrets.REQRES_API_KEY }}" > .env
+
       - name: Run tests (only tests container)
-        run: docker compose run --rm -e REQRES_API_KEY="${{ secrets.REQRES_API_KEY }}" tests
+        run: docker compose run --rm tests
         continue-on-error: true
 
       - name: Install Java

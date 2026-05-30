@@ -30,3 +30,5 @@ services:
     depends_on:
       - tests
     restart: "no"
+    env_file:
+      - .env

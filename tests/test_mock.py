@@ -21,10 +21,10 @@ def test_mock_success(app):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = mock_response
 
-    id = 2
-    response = app.get_class.get_user(id)
-    app.get_class.check_status_code_is_200(response)
-    app.get_class.validate_data(response, id=id)
+        id = 2
+        response = app.get_class.get_user(id)
+        app.get_class.check_status_code_is_200(response)
+        app.get_class.validate_data(response, id=id)
 
 @pytest.mark.smoke
 @pytest.mark.regression
@@ -37,7 +37,7 @@ def test_mock_not_valid(app):
         mock_get.return_value.status_code = 404
         mock_get.return_value.json.return_value = mock_response
 
-    id = 23
-    response = app.get_class.get_user(id)
-    app.get_class.check_status_code_is_404(response)
-    app.get_class.validate_data(response, id=id, valid=False)
+        id = 23
+        response = app.get_class.get_user(id)
+        app.get_class.check_status_code_is_404(response)
+        app.get_class.validate_data(response, id=id, valid=False)

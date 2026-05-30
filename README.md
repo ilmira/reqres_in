@@ -37,25 +37,25 @@ reqres_in/
 ├── services/
 │ ├── base_api.py # базовый HTTP-клиент
 │ └── reqres_in/
-│ ├── auth/ # методы для регистрации/логина
-│ │ ├── auth.py
-│ │ ├── login_user.py
-│ │ ├── register_user.py
-│ │ └── models/ # схемы ответов
-│ ├── resources/ # методы для работы с ресурсами
-│ │ ├── resource.py
-│ │ ├── get_resource.py
-│ │ ├── get_resources.py
-│ │ └── models/
-│ └── users/ # CRUD для пользователей
-│ ├── users.py
-│ ├── create_user.py
-│ ├── delete_user.py
-│ ├── get_user.py
-│ ├── get_users.py
-│ ├── update_user_put.py
-│ ├── update_user_patch.py
-│ └── models/
+│    ├── auth/ # методы для регистрации/логина
+│    │ ├── login_user.py
+│    │ ├── register_user.py
+│    │ └── models/ # схемы ответов
+│    │   └── auth.py
+│    ├── resources/ # методы для работы с ресурсами
+│    │ ├── get_resource.py
+│    │ ├── get_resources.py
+│    │ └── models/
+│    │   └── resource.py
+│    └── users/ # CRUD для пользователей
+│      ├── create_user.py
+│      ├── delete_user.py
+│      ├── get_user.py
+│      ├── get_users.py
+│      ├── update_user_put.py
+│      ├── update_user_patch.py
+│      └── models/
+│        └── users.py
 ├── tests/ # тесты
 │ ├── test_auth.py
 │ ├── test_create_user.py
@@ -85,11 +85,22 @@ pip install -r requirements.txt
 ```
 ### 3. Настроить переменные окружения
 
-Создать файл .env:
+#### 🔐 **Важно: требуется API‑ключ**
+
+Сервис [ReqRes](https://reqres.in) больше не позволяет использовать публичный доступ без ключа – запросы возвращают `401 Unauthorized`.  
+Для работы тестов **обязательно** получите личный API‑ключ:
+
+1. Перейдите на [https://reqres.in](https://reqres.in) и зарегистрируйтесь / войдите.
+2. В личном кабинете создайте API‑ключ (обычно в разделе «API Access» или «Profile»).
+3. Скопируйте полученный ключ.
+
+### Настройка ключа в проекте
+
+Создайте в корне проекта файл `.env` (если его нет) и добавьте туда строку:
 
 ```
 # .env.example
-API_KEY=your_api_key_here
+REQRES_API_KEY=your_api_key_here
 ```
 
 ```bash

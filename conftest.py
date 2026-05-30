@@ -31,7 +31,7 @@ def env(request) -> Environment:
     except ValueError:
         raise ValueError(
             f"Некорректное окружение: {env_name}. "
-            f"Используйте одно из: dev/stage/prod"
+            f"Используйте одно из: dev/stage"
         )
 
 
